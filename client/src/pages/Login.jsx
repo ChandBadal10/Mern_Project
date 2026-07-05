@@ -6,70 +6,65 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
-
   const navigate = useNavigate();
-
-  const { backendUrl, setIsLoggedin, getUserData } =
-    useContext(AppContext);
-
+  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContext);
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
 
-  const onSubmitHandler = async (e) => {
 
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     try {
-
       setLoading(true);
-
       axios.defaults.withCredentials = true;
 
-      const { data } = await axios.post(
-        `${backendUrl}/api/auth/login`,
-        {
+      let data;
+      if (email === import.meta.env.VITE_ADMIN_EMAIL) {
+        const response = await axios.post(`${backendUrl}/api/admin/login`, {
           email,
           password,
-        }
-      );
+        });
 
-      if (data.success) {
-
-        toast.success(data.message);
-
-        setIsLoggedin(true);
-
-        await getUserData();
-
-        navigate("/");
-
+        data = response.data;
       } else {
+        const response = await axios.post(`${backendUrl}/api/auth/login`, {
+          email,
+          password,
+        });
 
-        toast.error(data.message);
-
+        data = response.data;
       }
 
+      if (data.success) {
+        toast.success(data.message);
+
+        // ADMIN LOGIN
+        if (email === import.meta.env.VITE_ADMIN_EMAIL) {
+          navigate("/admin");
+        }
+
+        // USER LOGIN
+        else {
+          setIsLoggedin(true);
+
+          await getUserData();
+
+          navigate("/");
+        }
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
-
-      toast.error(
-        error.response?.data?.message || error.message
-      );
-
+      toast.error(error.response?.data?.message || error.message);
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   return (
-
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400 px-6">
-
       <div
         onClick={() => navigate("/")}
         className="absolute top-5 left-5 flex items-center gap-2 cursor-pointer"
@@ -79,17 +74,13 @@ const Login = () => {
       </div>
 
       <div className="bg-slate-900 p-10 rounded-xl shadow-2xl w-full max-w-md">
-
         <h2 className="text-3xl text-white font-bold text-center mb-2">
           Login
         </h2>
 
-        <p className="text-gray-400 text-center mb-6">
-          Login to your account
-        </p>
+        <p className="text-gray-400 text-center mb-6">Login to your account</p>
 
         <form onSubmit={onSubmitHandler}>
-
           <div className="mb-4 flex items-center gap-3 bg-[#333A5C] px-5 py-3 rounded-full">
             <Mail className="text-gray-400 w-5 h-5" />
 
@@ -123,12 +114,10 @@ const Login = () => {
           >
             {loading ? "Please wait..." : "Login"}
           </button>
-
         </form>
 
         <p className="text-gray-400 text-center text-sm mt-5">
           Don't have an account?{" "}
-
           <span
             onClick={() => navigate("/register")}
             className="text-blue-400 cursor-pointer underline"
@@ -136,13 +125,9 @@ const Login = () => {
             Register
           </span>
         </p>
-
       </div>
-
     </div>
-
   );
-
 };
 
 export default Login;
