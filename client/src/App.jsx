@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import Register from './pages/Register';
+import AdminDashboard from './pages/AdminDashboard';
 
 const App = () => {
   return (
@@ -20,6 +21,8 @@ const App = () => {
       <Route path='/email-verify' element={<EmailVerify />}  />
       <Route path='/reset-password' element={<ResetPassword />}  />
 
+      {/* Admin Routes  */}
+      <Route path='/admin' element={<AdminDashboard />}  />
 
     </Routes>
 
