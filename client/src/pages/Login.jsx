@@ -94,7 +94,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="mb-5 flex items-center gap-3 bg-[#333A5C] px-5 py-3 rounded-full">
+          <div className="mb-4 flex items-center gap-3 bg-[#333A5C] px-5 py-3 rounded-full">
             <Lock className="text-gray-400 w-5 h-5" />
 
             <input
@@ -106,6 +106,13 @@ const Login = () => {
               className="bg-transparent outline-none w-full text-white"
             />
           </div>
+
+          <p
+            onClick={() => navigate("/reset-password")}
+            className="mb-5 text-indigo-400 text-sm cursor-pointer hover:underline text-right"
+          >
+            Forgot Password?
+          </p>
 
           <button
             type="submit"
