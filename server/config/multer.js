@@ -1,7 +1,7 @@
 import multer from "multer";
 
-// memoryStorage keeps the file as a Buffer (req.file.buffer / req.files.xxx[0].buffer)
-// which is exactly what ImageKit's upload() expects.
+// memoryStorage keeps each uploaded file as a Buffer (available at file.buffer)
+// which is what ImageKit's upload() function expects.
 const storage = multer.memoryStorage();
 
 const upload = multer({ storage });

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Home from "./pages/Home"
 import EmailVerify from './pages/EmailVerify';
 import ResetPassword from './pages/ResetPassword';
@@ -9,8 +9,11 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
+import AddProduct from './pages/AddProduct';
+import ListProduct from './pages/ListProduct';
 
 const App = () => {
+  const navigate = useNavigate();
   return (
     <>
     <ToastContainer />
@@ -22,7 +25,11 @@ const App = () => {
       <Route path='/reset-password' element={<ResetPassword />}  />
 
       {/* Admin Routes  */}
-      <Route path='/admin' element={<AdminDashboard />}  />
+      <Route path='/admin' element={<AdminDashboard />}  >
+        <Route index element={<navigate to="add-product" replace />} />
+        <Route path='add-product' element={<AddProduct />} />
+        <Route path='list-product' element={<ListProduct />} />
+      </Route>
 
     </Routes>
 
