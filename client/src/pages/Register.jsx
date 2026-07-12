@@ -14,19 +14,16 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
 
+
+
   const onSubmitHandler = async (e) => {
-
     e.preventDefault();
-
     try {
 
       setLoading(true);
-
       axios.defaults.withCredentials = true;
-
       const { data } = await axios.post(
         `${backendUrl}/api/auth/register`,
         {

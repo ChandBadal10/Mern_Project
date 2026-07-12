@@ -6,8 +6,6 @@ const addProduct = async (req, res) => {
   try {
     const { name, description, price, category, subCategory, sizes, bestseller } = req.body;
 
-    console.log("BODY:", req.body);
-    console.log("FILES:", req.files);
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).json({ success: false, message: "No images received by server" });
